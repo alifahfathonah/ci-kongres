@@ -46,7 +46,6 @@ $param =  $this->uri->segment(3);
             $('#btn-load-cabang').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
             $('#btn-load-korcab').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
             $('#btn-load-galeri').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
-            $('#btn-load-thumb').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
          }
       });
    });
