@@ -4,7 +4,19 @@
 		<div class="card border-white text-dark shadow mb-4 rounded">
 			<div class="card-body text-center">
 				<img class="d-block mx-auto lazyload" data-src="<?= base_url('asset/favicon.png') ?>" alt="" width="300" height="150">
-				<h1>Selamat Datang</h1>
+				<?php
+				if (date('H') >= 03 and date('H') <= 10) {
+					echo '<h2>Selamat Pagi</h2>';
+				} elseif (date('H') >= 11 and date('H') <= 15) {
+					echo '<h2>Selamat Siang</h2>';
+				} elseif (date('H') >= 16 and date('H') <= 17) {
+					echo '<h2>Selamat Sore</h2>';
+				} elseif (date('H') >= 18 or date('H') <= 02) {
+					echo '<h2>Selamat Malam</h2>';
+				} else {
+					echo 'Jam tidak ditemukan';
+				}
+				?>
 			</div>
 		</div>
 	</div>
@@ -53,7 +65,7 @@
 		<h6>Terbaru</h6>
 		<div class="owl-carousel">
 			<?php foreach ($galeris as $galeri) : ?>
-				<div class="ml-2"><img class="lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt=""></div>
+				<div class="ml-2"><img class="lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="" width="140" height="75"></div>
 			<?php endforeach; ?>
 		</div>
 	</div>

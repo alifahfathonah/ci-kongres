@@ -4,10 +4,18 @@
       <div class="col">
          <?php foreach ($galeris as $galeri) : ?>
             <div class="card shadow mb-4">
+               <p class="card-header bg-white">
+                  <a href="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" class="btn btn-sm btn-dark rounded-circle float-right single_image"><i class="fa fa-eye"></i></a>
+               </p>
                <img class="card-img-top lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="...">
                <div class="card-body">
-                  <p class="card-text"><strong><i class="fa fa-commenting"></i></strong><br><?= $galeri->judul_galeri ?></p>
-                  <a href="#" class="card-link"><i class="fa fa-calendar"></i>&nbsp;<?= tanggal($galeri->tgl_galeri) . ', ' . $galeri->wkt_galeri ?> WITA</a>
+                  <p class="card-text">
+                     <i class="fa fa-commenting text-primary"></i>&nbsp;<span class="text-primary">Caption</span><br>
+                     <?= $galeri->judul_galeri ?>
+                  </p>
+                  <p class="card-text">
+                     <i class="fa fa-calendar text-primary"></i>&nbsp;<?= tanggal($galeri->tgl_galeri) . ', ' . $galeri->wkt_galeri ?> WITA
+                  </p>
                </div>
             </div>
          <?php endforeach; ?>
@@ -41,6 +49,8 @@
             }
          });
       });
+
+      $("a.single_image").fancybox();
    });
 </script>
 </body>

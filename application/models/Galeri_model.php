@@ -97,8 +97,6 @@ class Galeri_model extends CI_Model
          $config['create_thumb'] = FALSE;
          $config['maintain_ratio'] = FALSE;
          $config['quality'] = '100%';
-         $config['width'] = 640;
-         $config['height'] = 640;
          $config['new_image'] = './upload/galeri/' . $gbr['file_name'];
 
          // load library resize codeigniter

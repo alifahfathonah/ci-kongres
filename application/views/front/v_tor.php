@@ -3,7 +3,7 @@
    <h2>T O R</h2>
 </div>
 <hr>
-<div class="badge badge-danger text-wrap" style="width: 6rem;">
+<div class="badge badge-danger text-wrap" style="width: 8 rem;">
    Catatan
 </div>
 <p class="text-muted text-justify">TOR dapat berubah sewaktu-waktu, menyesuaikan situasi dan kondisi berlangsungnya kongres</p>
