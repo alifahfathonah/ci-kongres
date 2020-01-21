@@ -8,6 +8,7 @@ class Galeri_model extends CI_Model
 
    public function get_all()
    {
+      $this->db->order_by('tgl_galeri', 'DESC');
       return $this->db->order_by('wkt_galeri', 'DESC')->get($this->_table)->result();
    }
 
@@ -19,11 +20,14 @@ class Galeri_model extends CI_Model
    public function get_limit($limit)
    {
       $this->db->limit($limit);
+      $this->db->order_by('tgl_galeri', 'DESC');
       return $this->db->order_by('wkt_galeri', 'DESC')->get($this->_table)->result();
    }
 
    public function get_load($posisi)
    {
+
+      $this->db->order_by('tgl_galeri', 'DESC');
       return $this->db->order_by('wkt_galeri', 'DESC')->get($this->_table, 2, $posisi)->result();
    }
 

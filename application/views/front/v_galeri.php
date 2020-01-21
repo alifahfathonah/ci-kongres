@@ -1,5 +1,5 @@
 <?php $this->load->view('front/layouts/header'); ?>
-<div id="galeri-all">
+<div id="galeri-all" class="mt-2">
    <div class="row">
       <div class="col">
          <?php foreach ($galeris as $galeri) : ?>
@@ -7,7 +7,7 @@
                <img class="card-img-top lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="...">
                <div class="card-body">
                   <p class="card-text"><strong><i class="fa fa-commenting"></i></strong><br><?= $galeri->judul_galeri ?></p>
-                  <a href="#" class="card-link"><i class="fa fa-calendar"></i>&nbsp;<?= $galeri->tgl_galeri . ' / ' . $galeri->wkt_galeri ?></a>
+                  <a href="#" class="card-link"><i class="fa fa-calendar"></i>&nbsp;<?= tanggal($galeri->tgl_galeri) . ', ' . $galeri->wkt_galeri ?> WITA</a>
                </div>
             </div>
          <?php endforeach; ?>
@@ -15,9 +15,9 @@
    </div>
 </div>
 
-<div class="row pencarian">
+<div class="row">
    <div class="col text-center">
-      <button type="button" id="btn-load-galeri" class="btn btn-warning text-white" data-posisi="2"></button>
+      <button type="button" id="btn-load-galeri" class="btn btn-warning text-white" data-posisi="25"></button>
    </div>
 </div>
 
@@ -37,7 +37,7 @@
             success: function(response) {
                $('#btn-load-galeri').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
                $('#galeri-all').append(response);
-               $('#btn-load-galeri').attr('data-posisi', posisi + 2);
+               $('#btn-load-galeri').attr('data-posisi', posisi + 25);
             }
          });
       });

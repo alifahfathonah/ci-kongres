@@ -16,7 +16,7 @@ class Welcome extends CI_Controller
 				break;
 
 			case 'galeri':
-				$parsing['galeris'] = $this->galeri_model->get_limit(2);
+				$parsing['galeris'] 	= $this->galeri_model->get_limit(25);
 				$this->load->view('front/v_galeri', $parsing);
 				break;
 
@@ -51,7 +51,7 @@ class Welcome extends CI_Controller
 						<img class="card-img-top lazyload" data-src="' . base_url() . '/upload/galeri/' . $data->foto_galeri . '">
 						<div class="card-body">
 							<p class="card-text"><strong><i class="fa fa-commenting"></i></strong><br>' . $data->judul_galeri . '</p>
-							<a href="#" class="card-link"><i class="fa fa-calendar"></i>&nbsp;' . $data->tgl_galeri . ' / ' . $data->wkt_galeri . '</a>
+							<a href="#" class="card-link"><i class="fa fa-calendar"></i>&nbsp;' . tanggal($data->tgl_galeri) . ', ' . $data->wkt_galeri . ' WITA</a>
 						</div>
 					</div>';
 		}

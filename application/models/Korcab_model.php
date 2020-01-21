@@ -18,13 +18,13 @@ class Korcab_model extends CI_Model
 
    public function get_limit()
    {
-      $this->db->limit(2);
+      $this->db->limit(25);
       return $this->db->order_by('id_korcab', 'DESC')->get($this->_table)->result();
    }
 
    public function get_load($posisi)
    {
-      return $this->db->order_by('id_korcab', 'DESC')->get($this->_table, 2, $posisi)->result();
+      return $this->db->order_by('id_korcab', 'DESC')->get($this->_table, 25, $posisi)->result();
    }
 
    public function get_where($where)

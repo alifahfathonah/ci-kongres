@@ -48,7 +48,7 @@
 
 <div class="row pencarian">
    <div class="col text-center">
-      <button type="button" id="btn-load-cabang" class="btn btn-primary" data-posisi="2"></button>
+      <button type="button" id="btn-load-cabang" class="btn btn-primary" data-posisi="25"></button>
    </div>
 </div>
 
@@ -133,7 +133,7 @@
             success: function(response) {
                $('#btn-load-cabang').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
                $('#peserta').append(response);
-               $('#btn-load-cabang').attr('data-posisi', posisi + 2);
+               $('#btn-load-cabang').attr('data-posisi', posisi + 25);
             }
          });
       });

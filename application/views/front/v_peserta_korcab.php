@@ -29,7 +29,7 @@
       <div class="my-3 p-3 bg-white rounded shadow">
          <h6 class="border-bottom border-dark pb-2 mb-0"><?= $delegasi->nama_korcab ?></h6>
          <?php
-         $asals = $this->peserta_model->get_join_cabang($delegasi->nama_korcab);
+         $asals = $this->peserta_model->get_join_korcab($delegasi->nama_korcab);
          foreach ($asals as $asal) : ?>
             <div class="media text-muted pt-3">
                <img class="bd-placeholder-img mr-2 rounded lazyload" width="65" height="65" data-src="<?= base_url('upload/peserta/' . $asal->foto) ?>">
@@ -48,7 +48,7 @@
 
 <div class="row pencarian">
    <div class="col text-center">
-      <button type="button" id="btn-load-cabang" class="btn btn-primary" data-posisi="2"></button>
+      <button type="button" id="btn-load-cabang" class="btn btn-primary" data-posisi="25"></button>
    </div>
 </div>
 
@@ -133,7 +133,7 @@
             success: function(response) {
                $('#btn-load-cabang').html('<i class="fa fa-history">&nbsp;Muat Lebih</i>');
                $('#peserta').append(response);
-               $('#btn-load-cabang').attr('data-posisi', posisi + 2);
+               $('#btn-load-cabang').attr('data-posisi', posisi + 25);
             }
          });
       });
