@@ -36,7 +36,8 @@ class Welcome extends CI_Controller
 				break;
 
 			default:
-				$parsing['galeris'] = $this->galeri_model->get_all();
+				$parsing['fotos'] = $this->galeri_model->get_limit_foto(6);
+				$parsing['videos'] = $this->galeri_model->get_limit_video(6);
 				$this->load->view('front/v_welcome', $parsing);
 				break;
 		}

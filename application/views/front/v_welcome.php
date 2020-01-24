@@ -62,10 +62,25 @@
 
 <div class="row">
 	<div class="col">
-		<h6>Terbaru</h6>
+		<h6>Foto Terbaru</h6>
 		<div class="owl-carousel">
-			<?php foreach ($galeris as $galeri) : ?>
-				<div class="ml-2"><img class="lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="" width="140" height="75"></div>
+			<?php foreach ($fotos as $foto) : ?>
+				<div class="ml-2">
+					<img class="lazyload" data-src="<?= base_url('upload/galeri/' . $foto->foto_galeri) ?>" alt="" width="150" height="75">
+				</div>
+			<?php endforeach; ?>
+		</div>
+	</div>
+</div>
+
+<div class="row">
+	<div class="col">
+		<h6>Video Terbaru</h6>
+		<div class="owl-carousel">
+			<?php foreach ($videos as $video) : ?>
+				<div class="ml-2">
+					<video src="<?= base_url('upload/galeri/' . $video->foto_galeri) ?>" width="100%" height="75"></video>
+				</div>
 			<?php endforeach; ?>
 		</div>
 	</div>

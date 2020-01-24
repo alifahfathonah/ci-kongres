@@ -24,6 +24,22 @@ class Galeri_model extends CI_Model
       return $this->db->order_by('wkt_galeri', 'DESC')->get($this->_table)->result();
    }
 
+   public function get_limit_foto($limit)
+   {
+      $this->db->limit($limit);
+      $this->db->order_by('tgl_galeri', 'DESC');
+      $this->db->order_by('wkt_galeri', 'DESC');
+      return $this->db->where('tipe_galeri', 'foto')->get($this->_table)->result();
+   }
+
+   public function get_limit_video($limit)
+   {
+      $this->db->limit($limit);
+      $this->db->order_by('tgl_galeri', 'DESC');
+      $this->db->order_by('wkt_galeri', 'DESC');
+      return $this->db->where('tipe_galeri', 'video')->get($this->_table)->result();
+   }
+
    public function get_load($posisi)
    {
 
