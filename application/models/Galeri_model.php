@@ -35,6 +35,7 @@ class Galeri_model extends CI_Model
    {
       $data = array(
          'judul_galeri' => ucfirst($this->input->post('judul', true)),
+         'tipe_galeri'  => $this->input->post('tipe', true),
          'foto_galeri'  => $this->_upload_image(),
          'tgl_galeri'   => date('Y-m-d'),
          'wkt_galeri'   => date('H:i:s')
@@ -47,11 +48,15 @@ class Galeri_model extends CI_Model
    {
       $data_foto_ada = array(
          'judul_galeri' => ucfirst($this->input->post('judul', true)),
-         'foto_galeri'  => $this->_upload_image()
+         'tipe_galeri'  => $this->input->post('tipe', true),
+         'foto_galeri'  => $this->_upload_image(),
+         'wkt_galeri'   => date('H:i:s')
       );
 
       $data_foto_kosong = array(
          'judul_galeri' => ucfirst($this->input->post('judul', true)),
+         'tipe_galeri'  => $this->input->post('tipe', true),
+         'wkt_galeri'   => date('H:i:s')
       );
 
       // jika inputan post file gambar tidak kosong
@@ -84,7 +89,7 @@ class Galeri_model extends CI_Model
    private function _upload_image()
    {
       $config['upload_path']          = './upload/galeri';
-      $config['allowed_types']        = 'jpg|png|jpeg';
+      $config['allowed_types']        = 'jpg|png|jpeg|mp4|flv|mkv';
 
       $this->load->library('upload', $config);
 

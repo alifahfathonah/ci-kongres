@@ -4,10 +4,13 @@
       <div class="col">
          <?php foreach ($galeris as $galeri) : ?>
             <div class="card shadow mb-4">
-               <p class="card-header bg-white">
-                  <a href="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" class="btn btn-sm btn-dark rounded-circle float-right single_image"><i class="fa fa-eye"></i></a>
-               </p>
-               <img class="card-img-top lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="...">
+               <a href="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" data-fancybox="gallery" data-caption="<?= $galeri->foto_galeri ?>">
+                  <?php if ($galeri->tipe_galeri == 'foto') { ?>
+                     <img class="card-img-top lazyload" data-src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" alt="...">
+                  <?php } elseif ($galeri->tipe_galeri == 'video') { ?>
+                     <video src="<?= base_url('upload/galeri/' . $galeri->foto_galeri) ?>" width="100%" height="250" controls></video>
+                  <?php } ?>
+               </a>
                <div class="card-body">
                   <p class="card-text">
                      <i class="fa fa-commenting text-primary"></i>&nbsp;<span class="text-primary">Caption</span><br>
@@ -50,7 +53,7 @@
          });
       });
 
-      $("a.single_image").fancybox();
+      $('[data-fancybox="gallery"]').fancybox();
    });
 </script>
 </body>

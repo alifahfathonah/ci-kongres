@@ -54,9 +54,17 @@ class Galeri extends CI_Controller
          $row    = array();
 
          $row[]  = '<div class="text-center">' . $no++ . '</div>';
-         $row[]  = '<div class="text-center">
+         if ($list->tipe_galeri == 'foto') {
+            $row[]  = '<div class="text-center">
                          <img class="lazyload" data-src="' . base_url('upload/galeri/') . $list->foto_galeri . '" width="72" height="72">
                    </div>';
+         } elseif ($list->tipe_galeri == 'video') {
+            $row[]  = '<div class="text-center">
+                        <video width="80px" height="70px">
+                           <source src="' . base_url('upload/galeri/') . $list->foto_galeri . '" type="video/mp4">
+                        </video>
+                   </div>';
+         }
          $row[]  = '<div class="text-left">' . $list->judul_galeri . '</div>';
          $row[]  = '<div class="text-center">' . $list->tgl_galeri . ' / ' . $list->wkt_galeri . '</div>';
          $row[]  = '
