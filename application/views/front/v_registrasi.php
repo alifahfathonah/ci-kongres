@@ -5,6 +5,11 @@
 <hr>
 <div class="row">
    <div class="col">
+      <?= $this->session->flashdata('message') ?>
+   </div>
+</div>
+<div class="row">
+   <div class="col">
       <form action="<?= site_url('welcome/registrasi') ?>" method="POST" enctype="multipart/form-data">
          <div class="mb-3">
             <label for="delegasi">Delegasi</label>

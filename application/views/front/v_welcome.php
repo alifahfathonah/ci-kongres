@@ -73,19 +73,6 @@
 	</div>
 </div>
 
-<div class="row">
-	<div class="col">
-		<h6>Video Terbaru</h6>
-		<div class="owl-carousel">
-			<?php foreach ($videos as $video) : ?>
-				<div class="ml-2">
-					<video src="<?= base_url('upload/galeri/' . $video->foto_galeri) ?>" width="100%" height="75"></video>
-				</div>
-			<?php endforeach; ?>
-		</div>
-	</div>
-</div>
-
 <?php $this->load->view('front/layouts/footer'); ?>
 <script>
 	$(document).ready(function() {

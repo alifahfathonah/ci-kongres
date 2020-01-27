@@ -37,7 +37,6 @@ class Welcome extends CI_Controller
 
 			default:
 				$parsing['fotos'] = $this->galeri_model->get_limit_foto(6);
-				$parsing['videos'] = $this->galeri_model->get_limit_video(6);
 				$this->load->view('front/v_welcome', $parsing);
 				break;
 		}
@@ -235,16 +234,51 @@ class Welcome extends CI_Controller
 		);
 
 		if ($this->form_validation->run() == FALSE) {
+			// redirect kembali
 			$this->load->view('front/v_registrasi');
 		} else {
+			// cek jumlah asal delegasi
 			$jum_data = $this->peserta_model->count_asal($this->input->post('asal', true));
 
 			if ($jum_data < 3) {
-				$this->peserta_model->go_insert();
-				$this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Selamat, </strong> registrasi berhasil ! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
-				redirect(site_url('/'));
+				$input_email = $this->input->post('email', true);
+
+				$data = array(
+					'id'        => rand(111111, 199999),
+					'delegasi'  => ucwords($this->input->post('delegasi', true)),
+					'asal'      => ucwords($this->input->post('asal', true)),
+					'nama'      => ucwords($this->input->post('nama', true)),
+					'telp'      => $this->input->post('telp', true),
+					'email'     => $input_email,
+					'jabatan'   => ucwords($this->input->post('jabatan', true)),
+					'periode'   => $this->input->post('periode', true),
+					'foto'      => $this->_upload_image(),
+					'aktif'     => 0
+				);
+
+				// buat token verifikasi
+				$token = base64_encode(random_bytes(32));
+
+				$user_token = array(
+					'email' => $input_email,
+					'token' => $token,
+					'date_created' => time()
+				);
+
+				// insert data registrasi sebelum aktif
+				$this->peserta_model->go_insert($data);
+
+				// insert data registrasi dengan token 
+				$this->db->insert('peserta_token', $user_token);
+
+				// kirim email untuk verifikasi peserta
+				$this->_sendEmail($token, $input_email);
+
+				// berikan alert notif untuk pemberitahuan 
+				$this->session->set_flashdata('message', '<div class="alert alert-warning alert-dismissible fade show" role="alert"><strong>Selamat, </strong> silakan cek email anda (1x24 Jam) untuk verifikasi pendaftaran! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				redirect(site_url('welcome/index/registrasi'));
 			} else {
-				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Oops, </strong> Asal Delagasi Penuh ! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Oops, </strong> Asal Delagasi Sudah Penuh ! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
 				redirect(site_url('/'));
 			}
 		}
@@ -254,5 +288,109 @@ class Welcome extends CI_Controller
 	{
 		$show = $this->peserta_model->get_id($id_peserta);
 		echo json_encode($show);
+	}
+
+	private function _sendEmail($token, $email)
+	{
+		$config = array(
+			'protocol' 	=> 'smtp',
+			'smtp_host' => 'ssl://smtp.googlemail.com',
+			'smtp_user' => 'kongrespmiixx@gmail.com',
+			'smtp_pass' => 'irfan020412',
+			'smtp_port' => 465,
+			'mailtype' 	=> 'html',
+			'charset' 	=> 'utf-8',
+			'newline' 	=> "\r\n"
+		);
+
+		$this->load->library('email', $config);
+
+		$this->email->from('kongrespmiixx@gmail.com', 'Panitia Daerah Kongres');
+		$this->email->to($email);
+		$this->email->subject('Verifikasi Registrasi Peserta');
+		$this->email->message('silakan klik link berikut untuk verifikasi registrasi sebagai peserta kongres <a href="' . base_url() . 'welcome/verifikasi?email=' . $this->input->post('email') . '&token=' . urlencode($token) . '">Register</a>');
+
+		if ($this->email->send()) {
+			return true;
+		} else {
+			echo $this->email->print_debugger();
+			die;
+		}
+	}
+
+	public function verifikasi()
+	{
+		$email = $this->input->get('email');
+		$token = $this->input->get('token');
+
+		// validasi peserta
+		$peserta = $this->db->get_where('peserta', array('email' => $email))->row();
+
+		if ($peserta) {
+			$peserta_token = $this->db->get_where('peserta_token', array('token' => $token))->row();
+
+			if ($peserta_token) {
+				if (time() - $peserta_token->date_created < (60 * 60 * 24)) {
+					$this->db->set('aktif', 1);
+					$this->db->where('email', $email);
+					$this->db->update('peserta');
+
+					// hapus email di table peserta token
+					$this->db->delete('peserta_token', array('email' => $email));
+
+					$this->session->set_flashdata('message', '<div class="alert alert-success alert-dismissible fade show" role="alert"><strong>Selamat, </strong> Verifikasi pendaftaran Anda berhasil ! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+					redirect(site_url('/'));
+				} else {
+					// hapus email di table peserta token
+					$this->db->delete('peserta', array('email' => $email));
+					$this->db->delete('peserta_token', array('email' => $email));
+
+					// berikan alert notif untuk pemberitahuan 
+					$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Oopss, </strong>verifikasi pendaftaran anda gagal, token expired! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+					redirect(site_url('welcome/index/registrasi'));
+				}
+			} else {
+				// berikan alert notif untuk pemberitahuan 
+				$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Oopss, </strong>verifikasi pendaftaran anda gagal, token salah! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+				redirect(site_url('welcome/index/registrasi'));
+			}
+		} else {
+			// berikan alert notif untuk pemberitahuan 
+			$this->session->set_flashdata('message', '<div class="alert alert-danger alert-dismissible fade show" role="alert"><strong>Oopss, </strong>verifikasi pendaftaran anda gagal, email salah! <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>');
+			redirect(site_url('welcome/index/registrasi'));
+		}
+	}
+
+
+	/**
+	 * function membuat upload image yang hanya dapat diakses di dalam class ini
+	 * dan terdapat fitur untuk compress ukuran pixel gambar
+	 */
+	private function _upload_image()
+	{
+		$config['upload_path']          = './upload/peserta';
+		$config['allowed_types']        = 'jpg|png|jpeg';
+
+		$this->load->library('upload', $config);
+
+		if ($this->upload->do_upload('foto')) {
+			$gbr = $this->upload->data();
+
+			// config compress image
+			$config['image_library'] = 'gd2';
+			$config['source_image'] = './upload/peserta/' . $gbr['file_name'];
+			$config['create_thumb'] = FALSE;
+			$config['maintain_ratio'] = FALSE;
+			$config['quality'] = '100%';
+			$config['width'] = 750;
+			$config['height'] = 750;
+			$config['new_image'] = './upload/peserta/' . $gbr['file_name'];
+
+			// load library resize codeigniter
+			$this->load->library('image_lib', $config);
+			$this->image_lib->resize();
+
+			return $this->upload->data("file_name");
+		}
 	}
 }
