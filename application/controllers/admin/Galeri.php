@@ -65,7 +65,7 @@ class Galeri extends CI_Controller
                         </video>
                    </div>';
          }
-         $row[]  = '<div class="text-left">' . $list->judul_galeri . '</div>';
+         $row[]  = '<div class="text-left">' . substr($list->judul_galeri, 0, 100) . '</div>';
          $row[]  = '<div class="text-center">' . $list->tgl_galeri . ' / ' . $list->wkt_galeri . '</div>';
          $row[]  = '
                    <div class="text-center">

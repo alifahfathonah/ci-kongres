@@ -25,7 +25,7 @@
                <th>Nama Peserta</th>
                <th width="70">Delegasi</th>
                <th width="180">Asal</th>
-               <th width="130">Aksi</th>
+               <th width="150">Aksi</th>
             </tr>
          </thead>
          <tbody></tbody>

@@ -21,9 +21,15 @@
                <div class="row">
                   <div class="col-9">
                      <div class="mb-3">
-                        <label for="judul">Judul Galeri</label>
-                        <input type="text" class="form-control" name="judul" id="judul" placeholder="ex: Judul galeri" value="<?= $galeri->judul_galeri ?>">
+                        <label for="file">Foto</label>
+                        <div class="custom-file">
+                           <input type="file" class="custom-file-input" id="foto" name="foto">
+                           <label class="custom-file-label" for="file">File foto disini..</label>
+                        </div>
+                        <small class="text-muted pl-1">Ukuran Foto Otomatis Menjadi 640x640 Pixel</small>
                      </div>
+
+
                   </div>
                   <div class="col-3">
                      <label for="tipe">Tipe Galeri</label>
@@ -33,15 +39,11 @@
                      </select>
                   </div>
                </div>
-
-
-               <div class="mb-3">
-                  <label for="file">Foto</label>
-                  <div class="custom-file">
-                     <input type="file" class="custom-file-input" id="foto" name="foto">
-                     <label class="custom-file-label" for="file">File foto disini..</label>
+               <div class="row">
+                  <div class="col mb-3">
+                     <label for="judul">Judul Galeri</label>
+                     <textarea name="judul" id="judul" cols="30" class="form-control" placeholder="ex: Judul galeri"><?= $galeri->judul_galeri ?></textarea>
                   </div>
-                  <small class="text-muted pl-1">Ukuran Foto Otomatis Menjadi 640x640 Pixel</small>
                </div>
 
                <button class="btn btn-primary" type="submit">
@@ -59,6 +61,10 @@
    $(".custom-file-input").on("change", function() {
       var fileName = $(this).val().split("\\").pop();
       $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+   });
+
+   $(document).ready(function() {
+      $('#judul').summernote();
    });
 </script>
 </body>
