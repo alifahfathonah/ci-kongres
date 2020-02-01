@@ -256,6 +256,9 @@ class Welcome extends CI_Controller
 					'aktif'     => 0
 				);
 
+				// insert data registrasi sebelum aktif
+				$this->db->insert('peserta', $data);
+
 				// buat token verifikasi
 				$token = base64_encode(random_bytes(32));
 
@@ -264,9 +267,6 @@ class Welcome extends CI_Controller
 					'token' => $token,
 					'date_created' => time()
 				);
-
-				// insert data registrasi sebelum aktif
-				$this->peserta_model->go_insert($data);
 
 				// insert data registrasi dengan token 
 				$this->db->insert('peserta_token', $user_token);
